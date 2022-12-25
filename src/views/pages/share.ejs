@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head') %>
+    <script src="/js/share.js" defer></script>
+    <title>Metacloud</title>
+  </head>
+  <body>
+    <div
+      id="overlay"
+      style="
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        visibility: hidden;
+      "
+    ></div>
+    <div
+      class="flex-column align-items-center"
+      style="display: <%= link.secure ? "flex" : "none" %>"
+      id="authDiv"
+    >
+      <img
+        src="/images/logo.png"
+        alt="Metacloud-Logo"
+        style="width: 300px; height: 300px"
+      />
+      <span class="mb-3" style="font-size: 0.7rem"
+        >&#9729; &nbsp;<%= owner.name %></span
+      >
+      <input
+        autofocus
+        placeholder="Password"
+        type="password"
+        class="border w-25 px-4 py-2 mb-3"
+        style="outline: none; font-size: 0.8rem"
+      />
+      <button
+        id="unlockBtn"
+        class="btn font-weight-bold btn-secondary"
+        style="font-size: 0.7rem"
+      >
+        Unlock
+      </button>
+    </div>
+    <div id="mainDiv" class="p-3" style="visibility: <%= link.secure ? "hidden" : "visible" %>">
+      <div
+        class="position-absolute p-4"
+        style="
+          background-color: rgb(230, 230, 230);
+          width: 60%;
+          height: 80%;
+          left: 20%;
+          top: 10%;
+          visibility: hidden;
+        "
+        id="modal"
+      >
+        <div class="d-flex justify-content-between mb-2" style="height: 5%">
+          <span>
+            <span style="font-size: 0.7rem" class="modal-file-name"></span>
+            <button
+              id="downloadFileBtn"
+              class="ml-4 btn btn-secondary"
+              style="font-size: 0.7rem"
+              onclick="downloadFile()"
+            >
+              &darr; download
+            </button>
+          </span>
+          <span
+            class="font-weight-bold"
+            style="cursor: pointer"
+            onclick="showModal(false)"
+            >&times;</span
+          >
+        </div>
+        <div
+          class="modal-file-content"
+          style="height: 90%; white-space: pre; overflow: scroll"
+        ></div>
+      </div>
+      <div class="d-flex align-items-center">
+        <img
+          src="/images/logo.png"
+          alt="Metacloud-Logo"
+          style="width: 200px; height: 200px"
+        />
+        <span class="h3 text-secondary"><%= owner.name %>'s Home</span>
+      </div>
+      <div id="filesDiv" class="d-flex p-4" style="flex-wrap: wrap">
+        <% files.forEach((f)=>{ %>
+        <div
+          style="width: 200px; height: 200px; cursor: pointer"
+          class="d-flex flex-column align-items-center border m-3"
+          data-id="<%= f._id %>"
+        >
+          <img
+            src="<% if(f.type.includes('image')) {%> /images/imageFile.jpg <% } else { %> /images/textFile.png <% } %>"
+            alt="File-Image"
+            class="w-75 h-75 pt-3"
+          />
+          <div
+            class="w-100 px-3 py-2 d-flex justify-content-between align-items-center"
+          >
+            <span style="font-size: 0.7rem"><%= f.name %></span>
+            <span style="font-weight: bold; cursor: pointer" class="p-1"
+              >&equiv;</span
+            >
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </body>
+</html>
